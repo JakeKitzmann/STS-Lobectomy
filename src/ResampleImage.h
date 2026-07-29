@@ -3,7 +3,7 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkResampleImageFilter.h"
 
-using ImageType = itk::Image<double, 3>;
+using ImageType = itk::Image<float, 3>;
 
 ImageType::Pointer ResampleImage(ImageType::Pointer inputImage)
 {
@@ -37,34 +37,22 @@ ImageType::Pointer ResampleImage(ImageType::Pointer inputImage)
     {
         outputSpacing[i] =
             inputSpacing[i] *
-            static_cast<double>(inputSize[i]) /
-            static_cast<double>(outputSize[i]);
+            static_cast<float>(inputSize[i]) /
+            static_cast<float>(outputSize[i]);
     }
 
-    std::cout << "metadata:" << std::endl;
-    std::cout << outputSize << std::endl;
-    std::cout << "\n";
-    std::cout << outputSpacing << std::endl;
-
     resampler->SetInput(inputImage);
-    std::cout << "1" << std::endl;
     resampler->SetTransform(transform);
-    std::cout << "2" << std::endl;
     resampler->SetInterpolator(interpolator);
-    std::cout << "3" << std::endl;
-
     resampler->SetSize(outputSize);
-    std::cout << "4" << std::endl;
     resampler->SetOutputSpacing(outputSpacing);
-    std::cout << "5" << std::endl;
     resampler->SetOutputOrigin(inputImage->GetOrigin());
-    std::cout << "6" << std::endl;
 
-    std::cout << "1";
+    std::cout << "about to update";
     resampler->Update();
-    std::cout << "2";
+    std::cout << "updated";
 
-    auto outputImage = resampler->GetOutput();
+    ImageType::Pointer outputImage = resampler->GetOutput();
     outputImage->DisconnectPipeline();
 
     return outputImage;
