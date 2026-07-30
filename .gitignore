@@ -1,3 +1,2 @@
 build/*
 data/*
-testEval_1024 = {cmd = "./AirwayEvaluation --predictionPath ../../../TestData/test_pred_256--groundTruthPath ../../../TestData/test_groundTruth_256.nii.gz", cwd = "build/AirwayEvaluation/src"}
